@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css\style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+ </head>
+<body>
+ <div class="row" style="margin-right:15px;">
+    <div class="col-md-9 col-lg-9 ">
+	 <div class="login_image"></div>
+	 
+	 <div class="login_qoute justify-content-lg-center">
+	 <span class="logo">
+	<span style="font-size:120px;">B</span>ookStore
+	</span>
+	<h1> <span style="font-size:50px;margin-bottom:40px;">"A</span> place is not really a place without a bookstore."</h1>
+	 </div>
+	</div>
+    <div class="col-md-3 col-lg-3">
+	  
+        <div class="card">
+            <div class="login-box">
+                <div class="login-snip"> <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+                    <div class="login-space">
+                        <div class="login">
+						<form id="logform">
+                            <div class="group"> <label for="user" class="label" >Email</label> <input id="user" name="uname" type="text" class="input" placeholder="Enter your Email"> </div>
+                            <div class="group"> <label for="pass" class="label">Password</label> <input id="pass" type="password" name="pass" class="input" data-type="password" placeholder="Enter your password"> </div>
+                            <input id="tab-1" type="radio" name="t"  value="User"checked style="float:left"><p style="margin-left:15px;">User</p>
+							<input id="tab-1" type="radio" name="t"  value="Admin" style="float:left"><p style="margin-left:15px;">Admin</p>
+                            <div class="group"> <input type="submit" id="log-button" class="button" value="Sign In"> </div>
+                            <div class="hr"></div>
+                            <div class="foot"> <a href="forgot_password.html">Forgot Password?</a> </div>
+						</form>
+                        </div>
+                        <div class="sign-up-form" >
+						   <form id="addform">
+                            <div class="group"> <label for="user" class="label">Username</label> <input id="user" name="name" type="text" class="input" placeholder="Create your Username" required> </div>
+                            <div class="group"> <label for="pass" class="label">Password</label> <input id="pass" name ="pass"type="password" class="input" data-type="password" placeholder="Create your password" required> </div>
+                            
+                            <div class="group"> <label for="pass" class="label">Email Address</label> <input id="pass" name="email" type="mail" class="input" placeholder="Enter your email address" required> </div>
+                            <div class="group"> <input type="submit"  id="save-button" class="button" value="Sign Up"> </div>
+                            <div class="hr"></div>
+							
+                           </form>
+                        </div>
+						
+                    </div>
+					<div style="margin-top:50px;padding-left:0px;text-align: center;">
+					<p id="success" style="color:green;font-size:15px;"></p>
+					<p id="error" style="color:red;font-size:12px;"></p>
+					</div>
+                </div>
+				
+            </div>
+			
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+function message(message , status)
+{
+   if(status == true)
+   {
+   $("#success").html(message).slideDown();
+   $("#error").slideUp();
+   setTimeout(function(){
+   $("#success").slideUp();
+   },4000);
+   }
+   else
+   {
+	  $("#success").slideUp();
+      $("#error").html(message).slideDown();
+	  setTimeout(function(){
+      $("#error").slideUp();
+      },4000);
+   }
+}
+$(document).ready(function()
+{
+console.log("ready");
+});
+$("#save-button").on("click",function(e){
+  console.log("test");
+  e.preventDefault();
+  
+  var arr =$("#addform").serializeArray();
+  //console.log(arr);
+  var obj={};
+  var st=true;
+  for(var a=0;a < arr.length;a++)
+  {
+   obj[arr[a].name]=arr[a].value;
+   if(arr[a].value == "")
+   { 
+st=false;
+   }
+  }
+  if(st == true){
+  var json=JSON.stringify(obj);
+  //console.log(json);
+  //console.log(obj);
+  $.ajax({
+  url : 'http://localhost/map/insert_api.php',
+  type : "POST",
+  data : json,
+  success :  function(data)
+  {
+  message(data.message, data.status);
+  if(data.status == true)
+  {
+   $("#addform").trigger("reset");
+  }
+  }
+  });
+  }
+  else
+   message("All Fields are required !", false);
+  
+  });
+ $("#log-button").on("click",function(e){ 
+ console.log("don");
+ e.preventDefault();
+  var arr =$("#logform").serializeArray();
+  //console.log(arr);
+  var obj={};
+  var st=true;
+  for(var a=0;a < arr.length;a++)
+  {
+   obj[arr[a].name]=arr[a].value;
+   if(arr[a].value == "")
+   { 
+st=false;
+   }
+  }
+   if(st == true){
+  var json=JSON.stringify(obj);
+  $.ajax({
+  url : 'http://localhost/map/login_api.php',
+  type : "POST",
+  data : json,
+  success :  function(data)
+  {
+  message(data.message, data.status);
+  
+  if(data.status == true)
+  {
+   $("#logform").trigger("reset");
+    var url="?name="+ encodeURIComponent(data.user);
+   if(obj['t']=="Admin")
+   window.location.href = "file:///C:/Users/Pruthvi/Desktop/MAP%20INOVATIVE/map/admin.html"+url;
+   else
+    window.location.href = "file:///C:/Users/Pruthvi/Desktop/MAP%20INOVATIVE/map/user.html"+url;
+  }
+  }
+  });
+  }
+  else
+   message("All Fields are required !", false);
+ 
+ 
+ });
+
+
+</script>
+
+</body>
+</html>

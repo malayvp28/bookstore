@@ -1,0 +1,386 @@
+<html>
+<head>
+ 
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css\admin_style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+ </head>
+<body>
+<ul style="">
+  <li><a href="#home"><span class="logo">
+<span style="font-size:50px;">B</span>ookStore
+</span></a></li>
+
+ <li style="float:right;height:40px;background-color:rgb(150,0,0);padding-left:10px;padding-right:10px;font-size:15px;text-align:center;color:white" ><button class="btn" style="color:white;font-family:sans" onclick="logout()"> Logout</button></li>
+  <li style="float:right;height:40px;background-color:rgb(0,170,0);padding-left:10px;padding-top:10px;padding-right:10px;font-size:15px;text-align:center" ><i class="far fa-user" style="font-size:15px;margin-right:5px;"></i><span id="lblData" style="font-family:sans"></span></li>
+  
+</ul>
+  <form class="form-inline" id="insert" style="background-color:black;padding-top:20px;" class="justify-content-center">
+    
+	
+	 <div style="margin-left:24%;margin-right:10%;">
+      <input type="number" class="form-control" id="email" value="2" name="sid" style="display:none">
+       <input type="text" class="form-control" id="sname" placeholder="Enter Name" name="sname" style="margin:10px;">
+
+
+      <input type="text" class="form-control" id="sauthor" placeholder="Enter Author" name="sauthor" style="margin:10px;">
+ 
+
+      
+      <input type="number" class="form-control" id="sprice" placeholder="Enter Price" name="sprice"style="margin:10px;" >
+
+    <input type="submit" id="save-button" class="btn" value="Add Book" style="background-color:rgb(0,150,0);margin:10px;color:white">
+	</div>
+  </form>
+  
+   
+  
+  
+  
+  
+  
+  <div class="modal fade " id="myModal" >
+    <div class="modal-dialog modal-dialog-centered modal-sm" >
+      <div class="modal-content" style="color:black" >
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Update Book</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+       
+	    <form class="form-inline" id="update" style="">
+    
+	
+	 <div style="">
+      <input type="number" class="form-control" id="uid" value="2" name="uid" style="display:none">
+       <table style="color:black;"><tr class="" ><td class=""><span>Name </span></td><td class=""> <input  type="text" class="form-control" id="uname" placeholder="Enter Name" name="uname" style="left:10px;"></td></tr>
+
+
+     <tr class=""><td><span> Author </span></td><td><input type="text" class="form-control" id="uauthor" placeholder="Enter Author" name="uauthor" style=""></td></tr>
+ 
+
+      
+     <tr> <td><span>Price </span></td><td><input type="number" class="form-control" id="uprice" placeholder="Enter Price" name="uprice"style="" ></td></tr>
+
+    </table>
+ 	</div>
+    </form>
+ 	   
+	   
+	   
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+		 <button type="button" class="btn btn-danger" id="update-button">Update</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		  
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+<div class="container justify-content-center" style="margin-top:20px;">
+
+
+  
+<div style="margin-top:50px;padding-left:40px;margin-left:445px;">
+					<p id="success" style="color:rgb(0,220,0);font-size:15px;"></p>
+					<p id="error" style="color:red;font-size:15px;"></p>
+</div>
+
+<div style="color:white">  <span style="margin-left:42%;font-size:30px;margin-bottom:10px;">-Book Data-</span><hr style="background-color:white"></div>
+  <table class="table table-striped" id="" style="background-color:white;margin-top:2%;margin-bottom:40px;">
+  <thead>
+      <tr class="">
+        <th class="">ID</th>
+        <th class="">Name</th>
+        <th class="">Author</th>
+		<th class="">Price</th>
+		<th class="">Delete</th>
+		<th class="">Update</th>
+      </tr>
+    </thead>
+    <tbody id="table-data">
+      
+    </tbody>
+  </table>
+  
+</div>
+
+<!-- Footer -->
+<!-- Footer -->
+<footer class="footer font-small   " style="background-color:rgb(10,10,10)">
+
+  <!-- Footer Text -->
+ 
+  <!-- Footer Text -->
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2020 Copyright:
+    <a href="https://demo.com/"> Demo.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+<!-- Footer -->
+
+
+<script type="text/javascript">
+function message(message , status)
+{
+   if(status == true)
+   {
+   $("#success").html(message).slideDown();
+   $("#error").slideUp();
+   setTimeout(function(){
+   $("#success").slideUp();
+   },4000);
+   }
+   else
+   {
+	  $("#success").slideUp();
+      $("#error").html(message).slideDown();
+	  setTimeout(function(){
+      $("#error").slideUp();
+      },4000);
+   }
+}
+
+console.log("tes");
+    var queryString = new Array();
+    window.onload = function () {
+	 console.log("tes");
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        if (queryString["name"] != null) {
+          
+            data =  queryString["name"] ;
+            document.getElementById("lblData").innerHTML = data;
+        }
+		
+		
+		
+    };
+	function demo(){
+	
+	$("#table-data").slideDown();
+	$("Insert").slideUp();
+	}
+	function demo2(){
+	
+	$("#table-data").slideUp();
+	$("Insert").slideDown();
+	}
+	function LoadData(){
+	console.log("LoadData");
+	$.ajax({
+	  url :"http://localhost:8080/getbook",
+	  type : "GET",
+	  success : function(data)
+	  {
+	  var s="<tr>";
+	  
+	  for(var i=0;i<data.length;i++)
+	  {
+	 // console.log(data.length,s,data);
+	  s+= "<tr><td>"+data[i].id+"</td><td>"+data[i].name+"</td><td>"+data[i].author+"</td><td>"+data[i].price+"Rs.</td><td><button class='btn delete-btn' style='background-color:rgb(150,0,0);color:white' data-id='"+data[i].id+"'>Delete</button></td><<td><button class='btn update-btn' style='background-color:rgb(0,150,0);color:white' data-toggle='modal' data-target='#myModal' data-id='"+data[i].id+"' data-name='"+data[i].name+"' data-price='"+data[i].price+"' data-author='"+data[i].author+"' >Update</button></td>/tr>"
+	 }
+	  $("#table-data").html(s);
+	  }
+	  
+	});
+	
+	}
+	function logout()
+	{
+	 if(confirm("Are You Sure !!!"))
+	 {
+	 window.location.replace("file:///C:/Users/Pruthvi/Desktop/MAP%20INOVATIVE/map/login.html");
+	 }
+	}
+	$(document).ready(function(){
+	$("#table-data").slideDown();
+	$("Insert").slideUp();
+	LoadData();
+	
+	
+	
+	
+	$(document).on("click",".delete-btn",function(){
+	
+	if(confirm("Are You Sure !!!")){
+	var book_id=$(this).data("id");
+	
+	var a="http://localhost:8080/delete/"+book_id;
+	$.ajax({
+	 url: "http://localhost:8080/delete/"+book_id,
+	 type: "DELETE",
+	 success : function(data)
+	 {
+	 LoadData();
+	  message(data.message,data.status);
+	 console.log(data);
+	 }
+	 
+	 
+	});
+	}
+	});
+	
+	
+	
+	
+	
+	
+	
+		$(document).on("click",".update-btn",function(){
+		$("#uname").attr("value", $(this).data("name"));
+		$("#uauthor").attr("value", $(this).data("author"));
+		$("#uprice").attr("value", $(this).data("price"));
+		$("#uid").attr("value", $(this).data("id"));
+		
+		});
+	
+	});
+$("#save-button").on("click",function(e){
+  console.log("test");
+  e.preventDefault();
+  
+  var arr =$("#insert").serializeArray();
+  console.log(arr);
+  var obj={};
+  var st=true;
+  for(var a=0;a < arr.length;a++)
+  {
+   obj[arr[a].name]=arr[a].value;
+   if(arr[a].value == "")
+   { 
+   st=false;
+   }
+  }
+  if(st == true){
+  var json=JSON.stringify(obj);
+  json = encodeURIComponent(json);
+  console.log(json);
+  console.log(obj);
+  var fdata={
+        "id": $("#sid").val(),
+        "name": $('#sname').val(),
+        "price": $("#sprice").val(),
+        "url": "demo.jpg",
+        "author": $("#sauthor").val()
+    };
+  console.log(fdata);
+  $.ajax({
+  type : "POST",
+  contentType : "application/json", 
+  url : 'http://localhost:8080/addbook',
+  data : JSON.stringify(fdata),
+  dataType :"json",
+  success :  function(data)
+  {
+  console.log("success");
+  
+  if(data.status == true)
+  {
+  
+   $("#insert").trigger("reset");
+    message(data.message,data.status);
+   LoadData();
+  }
+  }
+  });
+  }
+  else
+   console.log("not add"); 
+  LoadData();
+  
+
+  });
+  
+  
+  
+  
+  
+  //update/
+  
+  
+  $("#update-button").on("click",function(e){
+  console.log("test_update");
+  e.preventDefault();
+  
+  var arr =$("#update").serializeArray();
+  console.log(arr);
+  var obj={};
+  var st=true;
+  for(var a=0;a < arr.length;a++)
+  {
+   obj[arr[a].name]=arr[a].value;
+   if(arr[a].value == "")
+   { 
+   st=false;
+   }
+  }
+  if(st == true){
+    var fdata={
+        "id": $("#uid").val(),
+        "name": $('#uname').val(),
+        "price": $("#uprice").val(),
+        "url": "demo.jpg",
+        "author": $("#uauthor").val()
+    };
+  console.log(fdata);
+  $.ajax({
+  type : "PUT",
+  contentType : "application/json", 
+  url : 'http://localhost:8080/update',
+  data : JSON.stringify(fdata),
+  dataType :"json",
+  success :  function(data)
+  {
+
+  
+  if(data.status == true)
+  {
+  
+   $("#insert").trigger("reset");
+   message(data.message,data.status);
+   LoadData();
+  }
+  }
+  });
+  }
+  else
+   console.log("not add"); 
+  LoadData();
+  
+
+    $("#myModal").modal('hide');
+  });
+	
+
+	
+</script>
+</body>
+</html>

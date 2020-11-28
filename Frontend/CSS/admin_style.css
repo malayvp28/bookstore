@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'oswald';
+    src: url('CoventryGardenNF.ttf');
+}
+body {
+    margin: 0;
+    color: white;
+	background: rgba(0,77,77, .9);
+    font: 600 12px/14px sans-serif;
+}
+.logo{
+	font-size:40px;
+	margin-top:60px;
+	top:-30px;
+	position:absolute;
+	color:white;
+	font-family:'oswald';
+	
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #4CAF50;
+  text-decoration: none;
+}
+#myInput {
+  
+  background-position: 0px 0px 10px  10px;
+  background-repeat: no-repeat;
+  width: 40%;
+  margin-left:28%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+  margin-top:20px;
+  border-radius: 20px 0px 0px 20px; 
+
+}
+
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+}
